@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract TECHPAY {
-    string public name = "TECHPAY";
+    string public name = "TechPay";
     string public symbol = "TPAY";
     uint8 public decimals = 18;
     uint256 public totalSupply = 10 * 10 ** uint256(decimals);
@@ -12,7 +12,7 @@ contract TECHPAY {
     mapping(address => mapping(address => uint256)) public allowance;
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Acesso negado: apenas o proprietário pode executar esta função");
+        require(msg.sender == owner, "Acesso negado: apenas o proprietario pode executar esta funcao");
         _;
     }
 
