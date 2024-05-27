@@ -7,11 +7,18 @@ contract TECHPAY {
     uint8 public decimals = 18;
     uint256 public totalSupply = 10 * 10 ** uint256(decimals);
 
+    address public owner;
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Acesso negado: apenas o proprietário pode executar esta função");
+        _;
+    }
+
     constructor() {
-        balanceOf[msg.sender] = totalSupply;
+        owner = msg.sender;
+        balanceOf[owner] = totalSupply;
     }
 
     function transfer(address to, uint256 value) public returns (bool success) {
@@ -38,6 +45,20 @@ contract TECHPAY {
         balanceOf[to] += value;
         allowance[from][msg.sender] -= value;
 
+        return true;
+    }
+
+    function mint(uint256 value) public onlyOwner returns (bool success) {
+        totalSupply += value;
+        balanceOf[owner] += value;
+        return true;
+    }
+
+    function burn(uint256 value) public onlyOwner returns (bool success) {
+        require(balanceOf[owner] >= value, "Saldo insuficiente para queimar");
+        
+        totalSupply -= value;
+        balanceOf[owner] -= value;
         return true;
     }
 }
